@@ -5,6 +5,7 @@ import { xorBy } from 'lodash'
 import SelectBox from 'react-native-multi-selectbox'
 import { View, StyleSheet, Image } from 'react-native'
 
+
 export const Atividade = () => {
 
     const [desbravadores, setDesbravadores] = useState([])
@@ -13,11 +14,14 @@ export const Atividade = () => {
     const [descricao, setDescricao] = useState('')
 
     function onMultiChange() {
-        return (item) => setDesbravadores(xorBy(desbravadores, [item], 'id'))
+        return (item) => {
+            return setDesbravadores(xorBy(desbravadores, [item], 'id'))
+        }
     }
 
     function onChange() {
         return (val) => {
+            setDesbravadores([])
             setListaDBV(mocks.desbravadores.filter(o => o.unidadeId == val.id))
             return setUnidade(val)
         }
@@ -61,7 +65,7 @@ export const Atividade = () => {
             <Appbar.Content title='Atividade' />
         </Appbar.Header>
 
-        <View style={{padding: 22}}>
+        <View style={{ padding: 22 }}>
 
             <TextInput
                 label={'Atividade'}
@@ -70,6 +74,8 @@ export const Atividade = () => {
                 value={descricao}
                 onChangeText={text => setDescricao(text)}
             ></TextInput>
+
+
 
 
             <View style={styles.selectContainer}>

@@ -1,7 +1,10 @@
 import { Text, StyleSheet } from 'react-native'
 import { Appbar, FAB } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
 
-export const Unidade = () => {
+export const Unidades = () => {
+
+    const navigation = useNavigation();
 
     return <>
         <Appbar.Header>
@@ -11,7 +14,7 @@ export const Unidade = () => {
         <FAB
             icon="plus"
             style={styles.fab}
-            onPress={() => console.log('Pressed')}
+            onPress={() => navigation.navigate('MinhasAtividades')}
         />
     </>
 }

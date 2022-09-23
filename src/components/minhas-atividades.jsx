@@ -2,21 +2,33 @@ import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import { List } from 'react-native-paper';
 import mock from '../../mocks'
-
+import { useNavigation } from '@react-navigation/native';
 
 export const MinhasAtividades = () => {
+
+    const navigation = useNavigation();
+
     const renderItem = ({ item }) => (
         <List.Item
             title={item.title}
             description={item.description.length > 50 ? 
                 item.description.slice(0,30)+'...' : item.description }
             left={props => <List.Icon {...props} icon="folder" />}
+            onPress={()=> navigation.navigate('AtividadeView',item)}
         />
     );
 
     return (
         <>
             <Text style={styles.title}>Lista de Atividades Pendentes</Text>
+            <SafeAreaView style={styles.container}>
+                <FlatList
+                    data={mock.atividades}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
+            </SafeAreaView>
+            <Text style={styles.title}>Lista de Atividades Concluídas</Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={mock.atividades}

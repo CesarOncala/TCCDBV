@@ -4,13 +4,13 @@ import { BottomNavigation, Text } from 'react-native-paper';
 
 import {Atividade} from '../components/atividade'
 import {Perfil} from '../components/perfil'
-import {Unidade} from '../components/unidade'
+import {Unidades} from '../components/unidades'
 
 const AtividadeRoute = () => <Atividade/>
 
 const PerfilRoute = () => <Perfil/>
 
-const UnidadeRoute = () => <Unidade/>
+const UnidadeRoute = () => <Unidades/>
 
 
 const Home = () => {
@@ -19,13 +19,13 @@ const Home = () => {
   const [routes] = React.useState([
     { key: 'perfil', title: 'Perfil', icon: 'account' },
     { key: 'atividade', title: 'Atividade', icon: 'lead-pencil' },
-    { key: 'unidade', title: 'Unidades', icon: 'account-group' },
+    { key: 'unidades', title: 'Unidades', icon: 'account-group' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     perfil: PerfilRoute,
     atividade: AtividadeRoute,
-    unidade: UnidadeRoute
+    unidades: UnidadeRoute
   });
 
 
