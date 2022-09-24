@@ -37,8 +37,6 @@ export const Perfil = () => {
         </View>
 
 
-
-
         <MinhasAtividades />
     </>)
 }
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
         padding: 16
     },
     image: {
-        width: 250, height: 250,
+        width: 200, height: 200,
         borderRadius: 130,
         marginRight: 15
     },

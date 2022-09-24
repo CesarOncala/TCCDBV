@@ -3,7 +3,8 @@ import { useState } from 'react'
 import mocks from '../../mocks.js';
 import { xorBy } from 'lodash'
 import SelectBox from 'react-native-multi-selectbox'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, ScrollView } from 'react-native'
+
 
 
 export const Atividade = () => {
@@ -65,61 +66,63 @@ export const Atividade = () => {
             <Appbar.Content title='Atividade' />
         </Appbar.Header>
 
-        <View style={{ padding: 22 }}>
+        <ScrollView>
+            <View style={{ padding: 22 }}>
 
-            <TextInput
-                label={'Atividade'}
-                multiline={true}
-                placeholder={'Descrição da atividade'}
-                value={descricao}
-                onChangeText={text => setDescricao(text)}
-            ></TextInput>
+                <TextInput
+                    label={'Atividade'}
+                    multiline={true}
+                    placeholder={'Descrição da atividade'}
+                    value={descricao}
+                    onChangeText={text => setDescricao(text)}
+                ></TextInput>
 
 
 
 
-            <View style={styles.selectContainer}>
+                <View style={styles.selectContainer}>
 
-                <View style={styles.select}>
-                    <Text style={{ fontSize: 20, paddingBottom: 10 }}>Unidade</Text>
-                    <SelectBox
-                        label="Selecione uma unidade"
-                        options={mocks.unidades}
-                        value={unidade}
-                        onChange={onChange()}
-                        hideInputFilter={false}
-                    />
+                    <View style={styles.select}>
+                        <Text style={{ fontSize: 20, paddingBottom: 10 }}>Unidade</Text>
+                        <SelectBox
+                            label="Selecione uma unidade"
+                            options={mocks.unidades}
+                            value={unidade}
+                            onChange={onChange()}
+                            hideInputFilter={false}
+                        />
+                    </View>
+
+
+                    <View style={styles.select}>
+                        <Text style={{ fontSize: 20, paddingBottom: 10 }}>Desbravadores</Text>
+                        <SelectBox
+                            label="Selecione uma ou mais unidades"
+                            options={listaDBV}
+                            selectedValues={desbravadores}
+                            onMultiSelect={onMultiChange()}
+                            onTapClose={onMultiChange()}
+                            isMulti
+                        />
+                    </View>
+
+
+
+                </View>
+
+                <View style={styles.image}>
+                    <Image
+                        style={{ width: 200, height: 200 }}
+                        source={{ uri: 'https://i.pinimg.com/originals/8f/d0/fe/8fd0fea5927efb1207ee9d7dd4535260.png' }} />
                 </View>
 
 
-                <View style={styles.select}>
-                    <Text style={{ fontSize: 20, paddingBottom: 10 }}>Desbravadores</Text>
-                    <SelectBox
-                        label="Selecione uma ou mais unidades"
-                        options={listaDBV}
-                        selectedValues={desbravadores}
-                        onMultiSelect={onMultiChange()}
-                        onTapClose={onMultiChange()}
-                        isMulti
-                    />
-                </View>
 
-
-
+                <Button icon="pen" color='darkblue' mode="contained" onPress={sendAtividade}>
+                    Cadastrar Atividade
+                </Button>
             </View>
-
-            <View style={styles.image}>
-                <Image
-                    style={{ width: 200, height: 200 }}
-                    source={{ uri: 'https://i.pinimg.com/originals/8f/d0/fe/8fd0fea5927efb1207ee9d7dd4535260.png' }} />
-            </View>
-
-
-
-            <Button icon="pen" color='darkblue' mode="contained" onPress={sendAtividade}>
-                Cadastrar Atividade
-            </Button>
-        </View>
+        </ScrollView>
 
 
     </>

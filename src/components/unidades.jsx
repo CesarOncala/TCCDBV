@@ -1,20 +1,39 @@
-import { Text, StyleSheet } from 'react-native'
-import { Appbar, FAB } from 'react-native-paper'
+import { Text, StyleSheet, SafeAreaView, FlatList } from 'react-native'
+import { Appbar, FAB, List } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import mock from '../../mocks'
 
 export const Unidades = () => {
 
     const navigation = useNavigation();
 
+    const renderItem = ({ item }) => (
+        <List.Item
+            title={item.title}
+            description={item.description.length > 50 ?
+                item.description.slice(0, 30) + '...' : item.description}
+            left={props => <List.Icon {...props} icon="folder" />}
+            onPress={() => navigation.navigate('Unidade', item)}
+        />
+    );
+
     return <>
         <Appbar.Header>
             <Appbar.Content title='Unidades' />
         </Appbar.Header>
-        <Text> OI </Text>
+
+        <SafeAreaView style={styles.container}>
+            <FlatList
+                data={mock.atividades}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+            />
+        </SafeAreaView>
+
         <FAB
             icon="plus"
             style={styles.fab}
-            onPress={() => navigation.navigate('MinhasAtividades')}
+            onPress={() => navigation.navigate('Unidade')}
         />
     </>
 }

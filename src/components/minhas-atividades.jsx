@@ -11,10 +11,10 @@ export const MinhasAtividades = () => {
     const renderItem = ({ item }) => (
         <List.Item
             title={item.title}
-            description={item.description.length > 50 ? 
-                item.description.slice(0,30)+'...' : item.description }
+            description={item.description.length > 50 ?
+                item.description.slice(0, 30) + '...' : item.description}
             left={props => <List.Icon {...props} icon="folder" />}
-            onPress={()=> navigation.navigate('AtividadeView',item)}
+            onPress={() => navigation.navigate('AtividadeView', item)}
         />
     );
 
@@ -35,7 +35,9 @@ export const MinhasAtividades = () => {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
-            </SafeAreaView></>
+            </SafeAreaView>
+        </>
+
     );
 }
 
@@ -53,8 +55,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 22,
         fontWeight: 'bold',
-        textAlign:'center',
-        
+        textAlign: 'center',
+        marginTop: 8
+
     },
 
 });
