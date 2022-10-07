@@ -13,6 +13,17 @@ const unidades = [
     }
 ]
 
+const unidadeslist = [
+ {
+    title: 'Onix',
+    id: 1,
+    sex: 'M',
+    description: 'Vai se foder',
+    agetrack: 12,
+    liderId: 2
+ }
+]
+
 const desbravadores = [
 
     {
@@ -57,19 +68,25 @@ const atividades = [
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
         title: 'First Item',
         description: 'Vai tomar no cuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu',
-        unidades: ['Onix','Diamante']
+        unidades: ['Onix','Diamante'],
+        report: 'Fazer a postagem de uma atividade criada pelo líder de sua unidade Cumprir as tarefas cabíveis aos membros participantes da unidade.',
+        finished: true
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
         title: 'Second Item',
         description: 'Pizza',
-        unidades: ['Onix','Diamante']
+        unidades: ['Onix','Diamante'],
+        finished: false,
+        report: ''
     },
     {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
         title: 'Third Item',
         description: 'Chocolate',
-        unidades: ['Onix','Diamante']
+        unidades: ['Onix','Diamante'],
+        finished: false,
+        report: ''
         
     },
     
@@ -78,4 +95,4 @@ const atividades = [
 ];
 
 
-export default {unidades,desbravadores,atividades,lideres};
+export default {unidades,desbravadores,atividades,lideres,unidadeslist};

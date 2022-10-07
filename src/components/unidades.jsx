@@ -24,7 +24,7 @@ export const Unidades = () => {
 
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={mock.atividades}
+                data={mock.unidadeslist}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />

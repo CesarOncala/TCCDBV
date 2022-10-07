@@ -23,7 +23,7 @@ export const MinhasAtividades = () => {
             <Text style={styles.title}>Lista de Atividades Pendentes</Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={mock.atividades}
+                    data={mock.atividades.filter(o=> !o.finished)}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
@@ -31,7 +31,7 @@ export const MinhasAtividades = () => {
             <Text style={styles.title}>Lista de Atividades Concluídas</Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={mock.atividades}
+                    data={mock.atividades.filter(o=> o.finished)}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />

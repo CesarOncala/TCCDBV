@@ -1,16 +1,35 @@
 import Header from '../components/header'
 import { useNavigation } from '@react-navigation/native'
-import { Text, TextInput, RadioButton } from 'react-native-paper';
+import { Text, TextInput, RadioButton, Button } from 'react-native-paper';
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native'
 import SelectBox from 'react-native-multi-selectbox'
 import mocks from '../../mocks'
+import { useEffect } from 'react';
+import { Message } from '../utils'
 
-export const Unidade = () => {
+export const Unidade = ({ route }) => {
 
+    const [obj, setObj] = useState(route?.params || null)
     const navigation = useNavigation();
-    const [checked, setChecked] = useState('first');
+    useEffect(() => {
+        setObj(route.params)
+        filterLider(obj?.liderId)
+    }, [])
+
+    /// Campos formulario
+    const [nome, setNome] = useState(obj?.title || null)
+    const [checked, setChecked] = useState(obj?.sex || null);
+    const [agetrack, setAgetrack] = useState(obj?.agetrack || 10);
     const [lider, setLider] = useState([])
+
+
+    function filterLider(id) {
+        if (!id)
+            return;
+        setLider(mocks.lideres.find(o => o.id == id))
+    }
+
 
     function onChange() {
         return (val) => {
@@ -18,9 +37,28 @@ export const Unidade = () => {
         }
     }
 
+    function Request(type) {
+
+        switch (type) {
+            case 'delete':
+                Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () => alert('lindo'))
+                break;
+            case 'update':
+                Message('Atualizar', 'Confirma atualização ? 😎', () => alert('gato'))
+                break;
+            case 'new':
+                navigation.goBack()
+                break;
+            default:
+                break;
+        }
+
+
+    }
+
     return <>
 
-        <Header title={'Teste'} goBack={() => navigation.goBack()}>
+        <Header title={nome || 'Nova Unidade'} goBack={() => navigation.goBack()}>
         </Header>
 
         <View style={styles.container}>
@@ -28,12 +66,16 @@ export const Unidade = () => {
                 style={styles.field}
                 placeholder={'Digite o nome da unidade...'}
                 label={'Nome da Unidade'}
+                value={nome}
+                onChangeText={setNome}
             ></TextInput>
 
             <TextInput
                 style={styles.field}
                 placeholder={'Digite a faixa etária...'}
                 keyboardType={'numeric'}
+                value={String(agetrack)}
+                onChange={setAgetrack}
             ></TextInput>
 
             <SelectBox
@@ -46,7 +88,7 @@ export const Unidade = () => {
             />
 
 
-            <View style={[styles.field,{marginTop:50}]}>
+            <View style={[styles.field, { marginTop: 50 }]}>
                 <Text style={styles.title}>Selecione o sexo da unidade</Text>
                 <View style={styles.genero}>
                     <View>
@@ -68,10 +110,24 @@ export const Unidade = () => {
                     </View>
                 </View>
             </View>
+
+            {obj ? <>
+                <Button style={styles.button} color={'darkblue'} icon="update" mode="contained"
+                    onPress={() => Request('update')}>
+                    Atualizar
+                </Button>
+
+                <Button style={styles.button} icon="trash-can" mode="contained" color='darkred'
+                    onPress={() => Request('delete')}>
+                    Deletar
+                </Button></> :
+
+                <Button style={styles.button} icon="content-save" mode="contained" color='darkgreen'
+                    onPress={() => Request('new')}>
+                    Criar Nova Unidade
+                </Button>
+            }
         </View>
-
-
-
 
     </>
 }
@@ -98,6 +154,9 @@ const styles = StyleSheet.create({
     field: {
         marginBottom: 12,
         marginTop: 8
+    },
+    button: {
+        marginBottom: 12
     }
 
 })

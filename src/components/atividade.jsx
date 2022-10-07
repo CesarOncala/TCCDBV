@@ -4,7 +4,7 @@ import mocks from '../../mocks.js';
 import { xorBy } from 'lodash'
 import SelectBox from 'react-native-multi-selectbox'
 import { View, StyleSheet, Image, ScrollView } from 'react-native'
-
+import {Message} from '../utils'
 
 
 export const Atividade = () => {
@@ -56,7 +56,7 @@ export const Atividade = () => {
             validations.push('Selecione pelo menos um Desbravador 😒')
 
         if (validations.length)
-            alert(validations.join('\n'))
+            Message('Por favor, corrija todos os itens para continuar!',validations.join('\n'),null,null,false)
 
         return validations.length > 0;
     }
