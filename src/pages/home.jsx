@@ -5,12 +5,15 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import {Atividade} from '../components/atividade'
 import {Perfil} from '../components/perfil'
 import {Unidades} from '../components/unidades'
+import {Desbravadores} from '../components/desbravadores'
 
 const AtividadeRoute = () => <Atividade/>
 
 const PerfilRoute = () => <Perfil/>
 
 const UnidadeRoute = () => <Unidades/>
+
+const DesbravadoresRoute = () => <Desbravadores/>
 
 
 const Home = () => {
@@ -20,12 +23,14 @@ const Home = () => {
     { key: 'perfil', title: 'Perfil', icon: 'account' },
     { key: 'atividade', title: 'Atividade', icon: 'lead-pencil' },
     { key: 'unidades', title: 'Unidades', icon: 'account-group' },
+    { key: 'desbravadores', title: 'Desbravadores', icon: 'account-box-multiple' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     perfil: PerfilRoute,
     atividade: AtividadeRoute,
-    unidades: UnidadeRoute
+    unidades: UnidadeRoute,
+    desbravadores:DesbravadoresRoute
   });
 
 
@@ -34,7 +39,7 @@ const Home = () => {
     roundness: 2,
     version: 3,
     colors: {
-      primary: 'darkblue',
+      primary: '#6200ee',
     },
   };
 

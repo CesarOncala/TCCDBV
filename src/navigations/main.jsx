@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../pages/home'
 import {Unidade} from '../pages/unidade'
+import {DesbravadoresView} from '../pages/desbravadores-view'
 import {AtividadeView} from '../pages/atividade-view'
+import {Register} from '../pages/register'
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +29,20 @@ const Main = () => {
        <Stack.Screen
         name="Unidade"
         component={Unidade}
+        options={{
+          header: () => null,
+        }}/>
+
+       <Stack.Screen
+        name="DesbravadoresView"
+        component={DesbravadoresView}
+        options={{
+          header: () => null,
+        }}/>
+      
+       <Stack.Screen
+        name="Register"
+        component={Register}
         options={{
           header: () => null,
         }}/>

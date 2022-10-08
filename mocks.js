@@ -29,17 +29,20 @@ const desbravadores = [
     {
         item: 'Marlon',
         id: 1,
-        unidadeId: 13 
+        unidadeId: 13,
+        score: 0
     },
     {
         item: 'Thiago',
         id: 2,
-        unidadeId: 13 
+        unidadeId: 13,
+        score: 5
     },
     {
         item: 'Fernando',
         id: 3,
-        unidadeId: 14 
+        unidadeId: 14,
+        score: 2
     }
 
 ]

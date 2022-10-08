@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Text, Appbar } from 'react-native-paper'
 import { MinhasAtividades } from './minhas-atividades'
 import { StyleSheet, View, Image } from 'react-native'
+import { AppContext } from '../contexts/appContext'
 
 export const Perfil = () => {
 
@@ -14,6 +15,7 @@ export const Perfil = () => {
 
         <Appbar.Header>
             <Appbar.Content title='Perfil' />
+            <Appbar.Action icon="logout" onPress={Request} />
         </Appbar.Header>
 
         <View style={styles.container}>
@@ -21,6 +23,7 @@ export const Perfil = () => {
                 <Text style={styles.title}>Desbravador <Text style={styles.value} > {nome}</Text> </Text>
                 <Text style={styles.title}>Unidade <Text style={styles.value}>{unidade}</Text></Text>
                 <Text style={styles.title}>Idade <Text style={styles.value}>{new Date().getFullYear() - dataN.getFullYear()}</Text></Text>
+                <Text style={styles.title}>Pontuação <Text style={styles.value}>{12}</Text></Text>
                 <Text style={styles.title}>Bottons</Text>
                 {/* <View style={styles.bottons}>
                     {

@@ -1,6 +1,6 @@
 import Header from '../components/header'
 import { useNavigation } from '@react-navigation/native'
-import { Text, TextInput, RadioButton, Button } from 'react-native-paper';
+import { Text, TextInput, RadioButton, Button, FAB } from 'react-native-paper';
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native'
 import SelectBox from 'react-native-multi-selectbox'
@@ -112,22 +112,32 @@ export const Unidade = ({ route }) => {
             </View>
 
             {obj ? <>
-                <Button style={styles.button} color={'darkblue'} icon="update" mode="contained"
-                    onPress={() => Request('update')}>
-                    Atualizar
-                </Button>
 
-                <Button style={styles.button} icon="trash-can" mode="contained" color='darkred'
-                    onPress={() => Request('delete')}>
-                    Deletar
-                </Button></> :
+                <FAB
+                    icon="update"
+                    style={[styles.fab,{backgroundColor:'blue'}]}
+                    onPress={() => Request('update')}
+                    color={'white'}
+                />
 
-                <Button style={styles.button} icon="content-save" mode="contained" color='darkgreen'
-                    onPress={() => Request('new')}>
-                    Criar Nova Unidade
-                </Button>
+                <FAB
+                    icon="trash-can"
+                    color='white'
+                    style={[styles.fab2,{ backgroundColor:'red'}]}
+                    onPress={() => Request('delete')} />
+
+            </> :
+
+                <FAB
+                    icon="content-save"
+                    color='white'
+                    style={[styles.fab,{backgroundColor:'green'}]}
+                    onPress={() => Request('new')} />
+
             }
         </View>
+
+
 
     </>
 }
@@ -157,6 +167,23 @@ const styles = StyleSheet.create({
     },
     button: {
         marginBottom: 12
-    }
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        marginBottom: -150,
+        backgroundColor: 'darkblue'
+    },
+    fab2: {
+        position: 'absolute',
+        margin: 16,
+        left: 0,
+        bottom: 0,
+        marginBottom: -150,
+        marginLeft: 220,
+        backgroundColor: 'darkblue'
+    },
 
 })
