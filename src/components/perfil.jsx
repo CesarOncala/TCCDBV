@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Text, Appbar } from 'react-native-paper'
 import { MinhasAtividades } from './minhas-atividades'
 import { StyleSheet, View, Image } from 'react-native'
@@ -6,26 +6,30 @@ import { AppContext } from '../contexts/appContext'
 
 export const Perfil = () => {
 
-    const [nome, setNome] = useState('rick')
+    const { user, login } = useContext(AppContext)
+
+    const [nome, setNome] = useState(user?.name)
     const [unidade, setUnidade] = useState('Onix')
-    const [dataN, setdataN] = useState(new Date('2000-11-12'))
-    const [nivel, setNivel] = useState(6)
+    const [dataN, setdataN] = useState(Number(user?.yearOfBirth))
+    const [nivel, setNivel] = useState(user?.nivel)
+    const [score, setScore] = useState(user?.score)
+
 
     return (<>
 
         <Appbar.Header>
             <Appbar.Content title='Perfil' />
-            <Appbar.Action icon="logout" onPress={Request} />
+            <Appbar.Action icon="logout" onPress={()=>login(false)} />
         </Appbar.Header>
 
         <View style={styles.container}>
             <View>
-                <Text style={styles.title}>Desbravador <Text style={styles.value} > {nome}</Text> </Text>
+                <Text style={styles.title}>{ user?.role == 1 ? 'Lider' : 'Desbravador' } <Text style={styles.value} > {nome}</Text> </Text>
                 <Text style={styles.title}>Unidade <Text style={styles.value}>{unidade}</Text></Text>
-                <Text style={styles.title}>Idade <Text style={styles.value}>{new Date().getFullYear() - dataN.getFullYear()}</Text></Text>
-                <Text style={styles.title}>Pontuação <Text style={styles.value}>{12}</Text></Text>
+                <Text style={styles.title}>Idade <Text style={styles.value}>{new Date().getFullYear() - dataN}</Text></Text>
+                <Text style={styles.title}>Pontuação <Text style={styles.value}>{score}</Text></Text>
                 <Text style={styles.title}>Bottons</Text>
-                {/* <View style={styles.bottons}>
+                <View style={styles.bottons}>
                     {
                         [...Array(nivel).keys()].map((o, i) => i <= 5 ? <Image
                             key={i}
@@ -33,7 +37,7 @@ export const Perfil = () => {
                             source={require(`../../assets/${i + 1}.png`)}
                         /> : null)
                     }
-                </View> */}
+                </View>
             </View>
             <Image style={styles.image}
                 source={{ uri: 'https://i.pinimg.com/736x/e4/b0/9c/e4b09c6651c30d4d6226ca75797871a7--disney-up-russell.jpg' }} />

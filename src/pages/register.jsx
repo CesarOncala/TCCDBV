@@ -37,7 +37,14 @@ export const Register = (props) => {
                 })
             })
             .then(o => o.json())
-            .then(o => props.finished(false))
+            .then(o =>{
+            
+                if(o['message']){
+                    alert(o['message'])
+                    return
+                }
+                props.finished(false)
+            })
             .catch(e => alert(e))
     }
 

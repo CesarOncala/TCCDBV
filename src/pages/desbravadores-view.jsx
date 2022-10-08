@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, Image, StyleSheet, View, TouchableOpacity } from "react-native"
 import Header from '../components/header'
 import { Checkbox, Button, FAB } from 'react-native-paper';
-
+import env from '../../environments'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const DesbravadoresView = ({ route }) => {
 
@@ -17,9 +18,57 @@ export const DesbravadoresView = ({ route }) => {
     const [class5, setclass5] = useState(false);
     const [class6, setclass6] = useState(false);
 
+    const classes = {
+        setclass1,
+        setclass2,
+        setclass3,
+        setclass4,
+        setclass5,
+        setclass6,
+        class1, class2, class3,class4, class5, class6
+    }
+
+    function LoadNivel() {
+
+        for (let index = 1; index <= user.nivel; index++)
+            classes['setclass' + index](true)
+    }
+
+    useEffect(()=>{
+        LoadNivel();
+    },[])
+
+
+    function Update(){
+        user.nivel = 0
+        for (const key in classes) {
+            if(typeof classes[key] == 'boolean' && classes[key])
+                user.nivel++;
+        }
+        user.score = score;
+    }
+
+    async function Save() {
+
+        Update();
+
+        fetch(`${env.apiAddress}Users`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8',
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`
+            },
+              body: JSON.stringify(user)
+        })
+            .then(o => o.json())
+            .then(o => navigation.goBack())
+            .catch(o => console.log(o))
+    }
+
 
     return <>
-        <Header title={user.item} goBack={() => navigation.goBack()}>
+        <Header title={user.name} goBack={() => navigation.goBack()}>
         </Header>
 
         <View style={styles.score}>
@@ -155,12 +204,12 @@ export const DesbravadoresView = ({ route }) => {
 
         </View>
 
-     
+
 
         <FAB
             icon="content-save"
             style={styles.fab}
-            onPress={() => alert('salvar')}
+            onPress={Save}
         />
 
     </>
@@ -223,7 +272,7 @@ const styles = StyleSheet.create({
         margin: 16,
         right: 0,
         bottom: 0,
-        backgroundColor:'darkblue'
+        backgroundColor: 'darkblue'
     },
 
 

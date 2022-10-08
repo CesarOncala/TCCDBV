@@ -1,33 +1,67 @@
 import Header from '../components/header'
 import { useNavigation } from '@react-navigation/native'
-import { Text, TextInput, RadioButton, Button, FAB } from 'react-native-paper';
+import { Text, TextInput, RadioButton, FAB } from 'react-native-paper';
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native'
 import SelectBox from 'react-native-multi-selectbox'
-import mocks from '../../mocks'
 import { useEffect } from 'react';
 import { Message } from '../utils'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import env from '../../environments'
 
 export const Unidade = ({ route }) => {
 
-    const [obj, setObj] = useState(route?.params || null)
+    const [obj, setObj] = useState(route?.params || {})
     const navigation = useNavigation();
+
+
     useEffect(() => {
         setObj(route.params)
-        filterLider(obj?.liderId)
+        LoadLideres()
     }, [])
 
+
+    const request = async (method, queryp, obj) => {
+
+        return fetch(`${env.apiAddress}Unidade/${queryp || ''}`, {
+            method: method,
+            headers: {
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`,
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(obj)
+        }).then(o => o.json())
+
+    }
+
     /// Campos formulario
-    const [nome, setNome] = useState(obj?.title || null)
-    const [checked, setChecked] = useState(obj?.sex || null);
-    const [agetrack, setAgetrack] = useState(obj?.agetrack || 10);
+    const [nome, setNome] = useState(obj?.name || '')
+    const [checked, setChecked] = useState(obj?.sex || 'M');
+    const [agetrack, setAgetrack] = useState(obj?.ageTrack || 10);
     const [lider, setLider] = useState([])
+    const [lideres, setLiders] = useState([])
 
 
-    function filterLider(id) {
+    function filterLider(id, items) {
+        debugger;
         if (!id)
             return;
-        setLider(mocks.lideres.find(o => o.id == id))
+        setLider(items?.find(o => o.id == id) || items[0])
+    }
+
+    async function LoadLideres() {
+        fetch(`${env.apiAddress}Users/Lideres`, {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`
+            }
+        })
+            .then(o => o.json())
+            .then(o => {
+                setLiders(o)
+                filterLider(obj?.liderId, o)
+            })
     }
 
 
@@ -37,24 +71,45 @@ export const Unidade = ({ route }) => {
         }
     }
 
-    function Request(type) {
+    async function Request(type) {
+
+
+        let temp = {
+            name: nome,
+            agetrack: agetrack,
+            sex: checked,
+            liderid: lider.id,
+        }
+
+        if (obj != undefined) {
+            obj.name = temp.name;
+            obj.ageTrack = temp.agetrack;
+            obj.sex = temp.sex;
+            obj.liderId = temp.liderid;
+        }
 
         switch (type) {
             case 'delete':
-                Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () => alert('lindo'))
+                Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () =>
+                request('DELETE', obj.id).then(o => navigation.goBack()))
+              
                 break;
             case 'update':
-                Message('Atualizar', 'Confirma atualização ? 😎', () => alert('gato'))
+               
+                Message('Atualizar', 'Confirma atualização ? 😎', () =>
+                request('PUT', '', obj).then(o => navigation.goBack()) )
                 break;
             case 'new':
-                navigation.goBack()
+                request('POST', '', temp).then(o => navigation.goBack())
+
                 break;
             default:
                 break;
         }
-
-
     }
+
+
+
 
     return <>
 
@@ -74,14 +129,14 @@ export const Unidade = ({ route }) => {
                 style={styles.field}
                 placeholder={'Digite a faixa etária...'}
                 keyboardType={'numeric'}
-                value={String(agetrack)}
-                onChange={setAgetrack}
+                value={agetrack}
+                onChangeText={setAgetrack}
             ></TextInput>
 
             <SelectBox
                 style={styles.field}
                 label="Selecione um lider"
-                options={mocks.lideres}
+                options={lideres}
                 value={lider}
                 onChange={onChange()}
                 hideInputFilter={false}
@@ -115,7 +170,7 @@ export const Unidade = ({ route }) => {
 
                 <FAB
                     icon="update"
-                    style={[styles.fab,{backgroundColor:'blue'}]}
+                    style={[styles.fab, { backgroundColor: 'blue' }]}
                     onPress={() => Request('update')}
                     color={'white'}
                 />
@@ -123,7 +178,7 @@ export const Unidade = ({ route }) => {
                 <FAB
                     icon="trash-can"
                     color='white'
-                    style={[styles.fab2,{ backgroundColor:'red'}]}
+                    style={[styles.fab2, { backgroundColor: 'red' }]}
                     onPress={() => Request('delete')} />
 
             </> :
@@ -131,7 +186,7 @@ export const Unidade = ({ route }) => {
                 <FAB
                     icon="content-save"
                     color='white'
-                    style={[styles.fab,{backgroundColor:'green'}]}
+                    style={[styles.fab, { backgroundColor: 'green' }]}
                     onPress={() => Request('new')} />
 
             }

@@ -1,21 +1,48 @@
 import { Text, StyleSheet, SafeAreaView, FlatList } from 'react-native'
 import { Appbar, FAB, List } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import mock from '../../mocks'
+import { useState, useEffect } from 'react'
+import env from '../../environments'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Unidades = () => {
 
     const navigation = useNavigation();
-
+    const [unidadesList, setUnidadesList] = useState([])
     const renderItem = ({ item }) => (
         <List.Item
-            title={item.title}
-            description={item.description.length > 50 ?
-                item.description.slice(0, 30) + '...' : item.description}
-            left={props => <List.Icon {...props} icon="folder" />}
+            title={item.name}
+            // description={item.description.length > 50 ?
+            //     item.description.slice(0, 30) + '...' : item.description}
+            left={props => <List.Icon {...props} icon="home-group" />}
             onPress={() => navigation.navigate('Unidade', item)}
         />
     );
+
+    useEffect(() => {
+
+        LoadUsers()
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            LoadUsers();
+        });
+        return willFocusSubscription;
+    }, [])
+
+    async function LoadUsers() {
+
+        fetch(`${env.apiAddress}Unidade`, {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`
+            }
+        })
+            .then(o => o.json())
+            .then(o => {
+                setUnidadesList(o)
+            })
+            .catch(o => console.log(o))
+    }
+
 
     return <>
         <Appbar.Header>
@@ -24,7 +51,7 @@ export const Unidades = () => {
 
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={mock.unidadeslist}
+                data={unidadesList}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />

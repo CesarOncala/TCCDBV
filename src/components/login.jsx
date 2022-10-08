@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { AppContext } from '../contexts/appContext'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,8 +12,7 @@ export function Login(props) {
   const [password, setPassword] = useState('');
   const [isregistering, setRegistering] = useState(false)
 
-  const { setUser } = useContext(AppContext);
-
+  const { setUser, setLogin, login } = useContext(AppContext);
 
   function Authenticate() {
 
@@ -35,7 +34,6 @@ export function Login(props) {
   }
 
   function AuthValidation(user) {
-    console.log(user)
 
     if (user['jwt'] == undefined) {
       alert('Usuário ou senha inválidos ! 😒')
@@ -43,7 +41,10 @@ export function Login(props) {
     }
 
     setUser(user.user)
-    props.authenticate(true);
+    setLogin(()=> (o)=>{ props.authenticate(o) })
+    
+    props.authenticate(true)
+
     AsyncStorage.setItem('token', user.jwt)
   }
 
