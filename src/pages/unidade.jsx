@@ -8,17 +8,26 @@ import { useEffect } from 'react';
 import { Message } from '../utils'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import env from '../../environments'
+import { xorBy } from 'lodash'
 
 export const Unidade = ({ route }) => {
 
     const [obj, setObj] = useState(route?.params || {})
     const navigation = useNavigation();
-
+    const [desbravadores, setDesbravadores] = useState([])
+    const [selectedDBV, setSelectedDBV] = useState([])
 
     useEffect(() => {
         setObj(route.params)
         LoadLideres()
+        LoadDesbravadores();
     }, [])
+
+    function onMultiChange() {
+        return (item) => {
+            return setSelectedDBV(xorBy(selectedDBV, [item], 'id'))
+        }
+    }
 
 
     const request = async (method, queryp, obj) => {
@@ -43,11 +52,10 @@ export const Unidade = ({ route }) => {
     const [lideres, setLiders] = useState([])
 
 
-    function filterLider(id, items) {
-        debugger;
-        if (!id)
+    function filterList(parameter, id, items, seter) {
+        if (!id || items.length == 0)
             return;
-        setLider(items?.find(o => o.id == id) || items[0])
+        seter(items?.find(o => o[parameter] == id) || items[0])
     }
 
     async function LoadLideres() {
@@ -60,7 +68,26 @@ export const Unidade = ({ route }) => {
             .then(o => o.json())
             .then(o => {
                 setLiders(o)
-                filterLider(obj?.liderId, o)
+                debugger
+                filterList('id', obj?.liderId, o, setLider)
+            })
+    }
+
+    async function LoadDesbravadores() {
+        fetch(`${env.apiAddress}Users/Desbravadores`, {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`
+            }
+        })
+            .then(o => o.json())
+            .then(o => {
+                debugger
+                setDesbravadores(o)
+                if (obj?.liderId) {
+                    let t = o.filter(o => o.liderId == obj?.liderId)
+                    setSelectedDBV(t)
+                }
             })
     }
 
@@ -73,12 +100,16 @@ export const Unidade = ({ route }) => {
 
     async function Request(type) {
 
-
         let temp = {
             name: nome,
             agetrack: agetrack,
             sex: checked,
             liderid: lider.id,
+            membros: selectedDBV.map(o=>{
+                return {
+                    id: o.id
+                }
+            })
         }
 
         if (obj != undefined) {
@@ -86,18 +117,23 @@ export const Unidade = ({ route }) => {
             obj.ageTrack = temp.agetrack;
             obj.sex = temp.sex;
             obj.liderId = temp.liderid;
+            obj.membros  = selectedDBV.map(o=>{
+                return {
+                    id: o.id
+                }
+            })
         }
 
         switch (type) {
             case 'delete':
-                Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () =>
-                request('DELETE', obj.id).then(o => navigation.goBack()))
-              
+                // Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () =>
+                //     request('DELETE', obj.id).then(o => navigation.goBack()))
+                request('DELETE', obj.id).then(o => navigation.goBack())
                 break;
             case 'update':
-               
-                Message('Atualizar', 'Confirma atualização ? 😎', () =>
-                request('PUT', '', obj).then(o => navigation.goBack()) )
+                request('PUT', '', obj).then(o => navigation.goBack())
+                // Message('Atualizar', 'Confirma atualização ? 😎', () =>
+                //     request('PUT', '', obj).then(o => navigation.goBack()))
                 break;
             case 'new':
                 request('POST', '', temp).then(o => navigation.goBack())
@@ -140,6 +176,16 @@ export const Unidade = ({ route }) => {
                 value={lider}
                 onChange={onChange()}
                 hideInputFilter={false}
+            />
+
+
+            <SelectBox
+                label="Selecione um ou mais membros"
+                options={desbravadores}
+                selectedValues={selectedDBV}
+                onMultiSelect={onMultiChange()}
+                onTapClose={onMultiChange()}
+                isMulti
             />
 
 

@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 export default function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(!true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   return (
     <>
