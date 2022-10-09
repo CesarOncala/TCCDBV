@@ -16,6 +16,12 @@ export const Unidade = ({ route }) => {
     const navigation = useNavigation();
     const [desbravadores, setDesbravadores] = useState([])
     const [selectedDBV, setSelectedDBV] = useState([])
+    const [nome, setNome] = useState(obj?.name || '')
+    const [checked, setChecked] = useState(obj?.sex || 'M');
+    const [agetrack, setAgetrack] = useState(obj?.ageTrack || 10);
+    const [lider, setLider] = useState([])
+    const [lideres, setLiders] = useState([])
+
 
     useEffect(() => {
         setObj(route.params)
@@ -26,6 +32,12 @@ export const Unidade = ({ route }) => {
     function onMultiChange() {
         return (item) => {
             return setSelectedDBV(xorBy(selectedDBV, [item], 'id'))
+        }
+    }
+
+    function onChange() {
+        return (val) => {
+            return setLider(val)
         }
     }
 
@@ -41,15 +53,14 @@ export const Unidade = ({ route }) => {
             },
             body: JSON.stringify(obj)
         }).then(o => o.json())
-
+        .then(o=> {
+            if (o['sucess'] != undefined && !o.sucess) {
+                alert(o.message)
+                return
+            }
+            navigation.goBack()
+        })
     }
-
-    /// Campos formulario
-    const [nome, setNome] = useState(obj?.name || '')
-    const [checked, setChecked] = useState(obj?.sex || 'M');
-    const [agetrack, setAgetrack] = useState(obj?.ageTrack || 10);
-    const [lider, setLider] = useState([])
-    const [lideres, setLiders] = useState([])
 
 
     function filterList(parameter, id, items, seter) {
@@ -68,7 +79,6 @@ export const Unidade = ({ route }) => {
             .then(o => o.json())
             .then(o => {
                 setLiders(o)
-                debugger
                 filterList('id', obj?.liderId, o, setLider)
             })
     }
@@ -82,61 +92,57 @@ export const Unidade = ({ route }) => {
         })
             .then(o => o.json())
             .then(o => {
-                debugger
                 setDesbravadores(o)
-                if (obj?.liderId) {
-                    let t = o.filter(o => o.liderId == obj?.liderId)
+
+                if (obj?.membros) {
+                   let ids = obj.membros.map(o=> o.id)
+
+                    let t = o.filter(o => ids.includes(o.id))
                     setSelectedDBV(t)
                 }
             })
     }
 
 
-    function onChange() {
-        return (val) => {
-            return setLider(val)
-        }
-    }
+
 
     async function Request(type) {
+
+
+        if(selectedDBV.length == 0 || lider.length == 0){
+            alert('Selecione pelo menos um membro lider e desbravador!')
+            return
+        }
 
         let temp = {
             name: nome,
             agetrack: agetrack,
             sex: checked,
             liderid: lider.id,
-            membros: selectedDBV.map(o=>{
-                return {
-                    id: o.id
-                }
-            })
+            membros: selectedDBV.map(o => o.obj)
         }
 
         if (obj != undefined) {
-            obj.name = temp.name;
-            obj.ageTrack = temp.agetrack;
-            obj.sex = temp.sex;
-            obj.liderId = temp.liderid;
-            obj.membros  = selectedDBV.map(o=>{
-                return {
-                    id: o.id
-                }
-            })
+            for (const key in temp) {
+                obj[key] = temp[key]
+            }
         }
+
+        
 
         switch (type) {
             case 'delete':
                 // Message('Desejar deletar? 😢', 'Esta ação não podera ser desfeita!', () =>
                 //     request('DELETE', obj.id).then(o => navigation.goBack()))
-                request('DELETE', obj.id).then(o => navigation.goBack())
+                request('DELETE', obj.id)
                 break;
             case 'update':
-                request('PUT', '', obj).then(o => navigation.goBack())
+                request('PUT', '', obj)
                 // Message('Atualizar', 'Confirma atualização ? 😎', () =>
                 //     request('PUT', '', obj).then(o => navigation.goBack()))
                 break;
             case 'new':
-                request('POST', '', temp).then(o => navigation.goBack())
+                request('POST', '', temp)
 
                 break;
             default:
@@ -212,33 +218,33 @@ export const Unidade = ({ route }) => {
                 </View>
             </View>
 
-            {obj ? <>
 
-                <FAB
-                    icon="update"
-                    style={[styles.fab, { backgroundColor: 'blue' }]}
-                    onPress={() => Request('update')}
-                    color={'white'}
-                />
-
-                <FAB
-                    icon="trash-can"
-                    color='white'
-                    style={[styles.fab2, { backgroundColor: 'red' }]}
-                    onPress={() => Request('delete')} />
-
-            </> :
-
-                <FAB
-                    icon="content-save"
-                    color='white'
-                    style={[styles.fab, { backgroundColor: 'green' }]}
-                    onPress={() => Request('new')} />
-
-            }
         </View>
 
+        {obj ? <>
 
+            <FAB
+                icon="update"
+                style={[styles.fab, { backgroundColor: 'blue' }]}
+                onPress={() => Request('update')}
+                color={'white'}
+            />
+
+            <FAB
+                icon="trash-can"
+                color='white'
+                style={[styles.fab2, { backgroundColor: 'red' }]}
+                onPress={() => Request('delete')} />
+
+        </> :
+
+            <FAB
+                icon="content-save"
+                color='white'
+                style={[styles.fab, { backgroundColor: 'green' }]}
+                onPress={() => Request('new')} />
+
+        }
 
     </>
 }
@@ -274,17 +280,15 @@ const styles = StyleSheet.create({
         margin: 16,
         right: 0,
         bottom: 0,
-        marginBottom: -150,
-        backgroundColor: 'darkblue'
+        fontSize: 50,
+        marginRight: 100
     },
     fab2: {
         position: 'absolute',
         margin: 16,
-        left: 0,
+        right: 0,
         bottom: 0,
-        marginBottom: -150,
-        marginLeft: 220,
-        backgroundColor: 'darkblue'
+        fontSize: 50,
     },
 
 })

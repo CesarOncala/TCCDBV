@@ -1,29 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import { List } from 'react-native-paper';
 import mock from '../../mocks'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import env from '../../environments'
 
 export const MinhasAtividades = () => {
 
     const navigation = useNavigation();
+    const [listaAtt, setListaAtt] = useState([])
+
 
     const renderItem = ({ item }) => (
         <List.Item
-            title={item.title}
-            description={item.description.length > 50 ?
-                item.description.slice(0, 30) + '...' : item.description}
+            title={item.titulo}
+            description={item.descricao?.length > 50 ?
+                item.descricao?.slice(0, 30) + '...' : item?.descricao}
             left={props => <List.Icon {...props} icon="folder" />}
             onPress={() => navigation.navigate('AtividadeView', item)}
         />
     );
+
+    useEffect(() => {
+        LoadAtividades();
+    }, [])
+
+    useEffect(()=>{
+        console.log(listaAtt)
+    },[listaAtt])
+
+
+    async function LoadAtividades() {
+
+        fetch(`${env.apiAddress}Atividade/atividadeslider`, {
+            method: 'GET',
+            headers: {
+                'authorization': `Bearer ${await AsyncStorage.getItem('token')}`,
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+        })
+        .then(o => o.json())
+        .then(o=>setListaAtt(o))
+    }
+
+
+
 
     return (
         <>
             <Text style={styles.title}>Lista de Atividades Pendentes</Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={mock.atividades.filter(o=> !o.finished)}
+                    data={listaAtt.filter(o => !o.finalizada)}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
@@ -31,7 +61,7 @@ export const MinhasAtividades = () => {
             <Text style={styles.title}>Lista de Atividades Concluídas</Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={mock.atividades.filter(o=> o.finished)}
+                    data={listaAtt.filter(o => o.finalizada)}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
