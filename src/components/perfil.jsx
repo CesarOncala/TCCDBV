@@ -4,6 +4,8 @@ import { MinhasAtividades } from './minhas-atividades'
 import { StyleSheet, View, Image } from 'react-native'
 import { AppContext } from '../contexts/appContext'
 
+
+
 export const Perfil = () => {
 
     const { user, login } = useContext(AppContext)
@@ -13,6 +15,15 @@ export const Perfil = () => {
     const [dataN, setdataN] = useState(Number(user?.yearOfBirth))
     const [nivel, setNivel] = useState(user?.nivel)
     const [score, setScore] = useState(user?.score)
+
+    const images = {
+        img1: require(`../../assets/1.png`),
+        img2: require(`../../assets/2.png`),
+        img3: require(`../../assets/3.png`),
+        img4: require(`../../assets/4.png`),
+        img5: require(`../../assets/5.png`),
+        img6: require(`../../assets/6.png`)
+    }
 
     return (<>
 
@@ -33,7 +44,7 @@ export const Perfil = () => {
                         [...Array(nivel).keys()].map((o, i) => i <= 5 ? <Image
                             key={i}
                             style={{ width: 25, height: 25 }}
-                            source={require(`../../assets/${i + 1}.png`)}
+                            source={images['img'+(i+1)]}
                         /> : null)
                     }
                 </View>
