@@ -53,13 +53,13 @@ export const Unidade = ({ route }) => {
             },
             body: JSON.stringify(obj)
         }).then(o => o.json())
-        .then(o=> {
-            if (o['sucess'] != undefined && !o.sucess) {
-                alert(o.message)
-                return
-            }
-            navigation.goBack()
-        })
+            .then(o => {
+                if (o['sucess'] != undefined && !o.sucess) {
+                    alert(o.message)
+                    return
+                }
+                navigation.goBack()
+            })
     }
 
 
@@ -93,9 +93,9 @@ export const Unidade = ({ route }) => {
             .then(o => o.json())
             .then(o => {
                 setDesbravadores(o)
-
+      
                 if (obj?.membros) {
-                   let ids = obj.membros.map(o=> o.id)
+                    let ids = obj.membros.map(o => o.id)
 
                     let t = o.filter(o => ids.includes(o.id))
                     setSelectedDBV(t)
@@ -109,7 +109,7 @@ export const Unidade = ({ route }) => {
     async function Request(type) {
 
 
-        if(selectedDBV.length == 0 || lider.length == 0){
+        if (selectedDBV.length == 0 || lider.length == 0) {
             alert('Selecione pelo menos um membro lider e desbravador!')
             return
         }
@@ -128,7 +128,7 @@ export const Unidade = ({ route }) => {
             }
         }
 
-        
+
 
         switch (type) {
             case 'delete':

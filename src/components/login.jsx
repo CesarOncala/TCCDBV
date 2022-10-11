@@ -39,7 +39,6 @@ export function Login(props) {
       alert('Usuário ou senha inválidos ! 😒')
       return;
     }
-
     setUser(user.user)
     setLogin(()=> (o)=>{ props.authenticate(o) })
     
@@ -58,7 +57,7 @@ export function Login(props) {
           <Text style={styles.logo}>Desbravadores</Text>
           <Image
             style={{ width: 200, height: 200, marginTop: -30, marginBottom: 30 }}
-            source={{ uri: 'https://files.adventistas.org/institucional/pt/sites/20/2013/03/18160828/D1.png' }}
+            source={{ uri: require('../../assets/dbv.png') || 'https://files.adventistas.org/institucional/pt/sites/20/2013/03/18160828/D1.png' }}
           />
         </View>
 

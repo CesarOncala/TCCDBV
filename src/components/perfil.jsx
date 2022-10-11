@@ -9,11 +9,10 @@ export const Perfil = () => {
     const { user, login } = useContext(AppContext)
 
     const [nome, setNome] = useState(user?.name)
-    const [unidade, setUnidade] = useState('Onix')
+    const [unidade, setUnidade] = useState(user?.unidade?.name || 'Sem unidade 😒')
     const [dataN, setdataN] = useState(Number(user?.yearOfBirth))
     const [nivel, setNivel] = useState(user?.nivel)
     const [score, setScore] = useState(user?.score)
-
 
     return (<>
 
@@ -40,7 +39,7 @@ export const Perfil = () => {
                 </View>
             </View>
             <Image style={styles.image}
-                source={{ uri: 'https://i.pinimg.com/736x/e4/b0/9c/e4b09c6651c30d4d6226ca75797871a7--disney-up-russell.jpg' }} />
+                source={{ uri: require('../../assets/up.jpg') ||  'https://i.pinimg.com/736x/e4/b0/9c/e4b09c6651c30d4d6226ca75797871a7--disney-up-russell.jpg' }} />
         </View>
 
 

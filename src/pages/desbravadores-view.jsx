@@ -81,7 +81,7 @@ export const DesbravadoresView = ({ route }) => {
             >
                 <Image
                     style={styles.img}
-                    source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={{ uri:  require('../../assets/star.png') ||   'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                 />
             </TouchableOpacity>
             <TouchableOpacity
@@ -90,7 +90,7 @@ export const DesbravadoresView = ({ route }) => {
             >
                 <Image
                     style={styles.img}
-                    source={{ uri: 'https://static.wikia.nocookie.net/universomario/images/a/a3/77519_1301185592608_full.jpg/revision/latest?cb=20120920224727&path-prefix=pt' }}
+                    source={{ uri: require('../../assets/ghost.png') || 'https://static.wikia.nocookie.net/universomario/images/a/a3/77519_1301185592608_full.jpg/revision/latest?cb=20120920224727&path-prefix=pt' }}
                 />
             </TouchableOpacity>
 
@@ -105,7 +105,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={{ uri: require('../../assets/1.png') ||  'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                     /><Text style={styles.ImgClassText}>  Amigo</Text></Text>
                 <Checkbox
                     status={class1 ? 'checked' : 'unchecked'}
@@ -121,7 +121,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={{ uri: require('../../assets/2.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                     /><Text style={styles.ImgClassText}>  Companheiro</Text></Text>
                 <Checkbox
                     status={class2 ? 'checked' : 'unchecked'}
@@ -137,7 +137,7 @@ export const DesbravadoresView = ({ route }) => {
 
                 <Text style={styles.textClass}><Image
                     style={styles.imgClass}
-                    source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={{ uri: require('../../assets/3.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                 /><Text style={styles.ImgClassText}>  Pesquisador</Text>
                 </Text>
                 <Checkbox
@@ -154,7 +154,7 @@ export const DesbravadoresView = ({ route }) => {
 
                 <Text style={styles.textClass}><Image
                     style={styles.imgClass}
-                    source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={{ uri:require('../../assets/4.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                 /><Text style={styles.ImgClassText}>  Pioneiro </Text></Text>
                 <Checkbox
                     status={class4 ? 'checked' : 'unchecked'}
@@ -171,7 +171,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={{ uri: require('../../assets/5.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                     />
                     <Text style={styles.ImgClassText}>  Excursionista </Text> </Text>
                 <Checkbox
@@ -189,7 +189,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={{ uri: require('../../assets/6.png') ||'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
                     />
                     <Text style={styles.ImgClassText}>  Guia</Text>
                 </Text>

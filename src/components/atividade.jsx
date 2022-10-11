@@ -181,7 +181,7 @@ export const Atividade = () => {
                 <View style={styles.image}>
                     <Image
                         style={{ width: 200, height: 200 }}
-                        source={{ uri: 'https://i.pinimg.com/originals/8f/d0/fe/8fd0fea5927efb1207ee9d7dd4535260.png' }} />
+                        source={{ uri: require('../../assets/m.png') ||  'https://i.pinimg.com/originals/8f/d0/fe/8fd0fea5927efb1207ee9d7dd4535260.png' }} />
                 </View>
 
 

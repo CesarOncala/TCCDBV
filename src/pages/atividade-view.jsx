@@ -28,7 +28,7 @@ export const AtividadeView = ({ route }) => {
         obj.desbravadores = null;
         obj.unidade = null;
 
-        Message("Tem certeza que deseja finalizar esta atividaed?", "Esta ação não poderá ser desfeita!", async () => {
+        Message("Tem certeza que deseja finalizar esta atividade?", user.role == 1?  "Esta ação não poderá ser desfeita!" : '', async () => {
             if (!validate()) {
 
                 Message('Relatório Invalido', 'O relatório precisa ser preenchido com pelo menos 12 caracteres 😒😢'
