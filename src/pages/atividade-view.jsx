@@ -1,56 +1,81 @@
 
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Header from '../components/header'
 import { Text, StyleSheet, Image, View, ScrollView } from 'react-native'
 import { TextInput, Appbar, Avatar } from 'react-native-paper';
 import { Message } from '../utils'
+import env from '../../environments'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppContext } from '../contexts/appContext'
+
 
 export const AtividadeView = ({ route }) => {
 
     const navigation = useNavigation();
     const [obj, setObj] = useState(route?.params || {})
-    const [report, setReport] = useState(obj?.report || '')
+    const [report, setReport] = useState(obj?.relatorio || '')
 
-    useEffect(() => setObj(route.params), [])
+    const { user } = useContext(AppContext)
 
-    function Request() {
+    useEffect(() => {
+        setObj(route.params)
+    }, [])
 
-        if (!validate()) {
+    async function Request() {
 
-            Message('Relatório Invalido', 'O relatório precisa ser preenchido com pelo menos 12 caracteres 😒😢'
-                , null, null, false)
+        obj.Relatorio = report;
+        obj.desbravadores = null;
+        obj.unidade = null;
 
-            return;
-        }
+        Message("Tem certeza que deseja finalizar esta atividaed?", "Esta ação não poderá ser desfeita!", async () => {
+            if (!validate()) {
+
+                Message('Relatório Invalido', 'O relatório precisa ser preenchido com pelo menos 12 caracteres 😒😢'
+                    , null, null, false)
+
+                return;
+            }
+
+            fetch(`${env.apiAddress}Atividade`, {
+                method: 'PUT',
+                headers: {
+                    'authorization': `Bearer ${await AsyncStorage.getItem('token')}`,
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(obj)
+            })
+                .then(o => o.json())
+                .then(o => navigation.goBack())
+        })
+
+
 
     }
 
     function validate() {
 
-        if (report == '' || report.lenght <= 12)
-            return false
-        
-        return true;
+        return !(report == '' || report.length <= 12);
     }
 
     return (
 
         <>
-            <Header title={obj.title} goBack={() => navigation.goBack()}>
+            <Header title={obj.titulo} goBack={() => navigation.goBack()}>
                 {
-                    obj.finished ? <Avatar.Icon size={50} icon="account-check" /> :
+                    obj.finalizada ? <Avatar.Icon size={50} icon="account-check" /> :
                         <Appbar.Action icon="check" onPress={Request} />
                 }
             </Header>
 
             <ScrollView>
                 <View>
-                    <Text style={styles.title}>Unidades que devem fazer</Text>
-                    <Text style={styles.desc}>{obj.unidades.join(' , ')}</Text>
+                    <Text style={styles.title}>Unidade</Text>
+                    <Text style={styles.desc}>{obj?.unidade?.name}</Text>
 
                     <Text style={styles.title}>Descrição</Text>
-                    <Text style={styles.desc}> {obj.description} </Text>
+                    <Text style={styles.desc}> {obj.descricao} </Text>
 
                     <TextInput
                         // style={styles.field}
@@ -59,6 +84,7 @@ export const AtividadeView = ({ route }) => {
                         multiline={true}
                         value={report}
                         onChangeText={setReport}
+                        disabled={user.role == '1' || obj?.finalizada}
                         style={[{ fontSize: 22, color: 'red' }]}
                     ></TextInput>
                 </View>

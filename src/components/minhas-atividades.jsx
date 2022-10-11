@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
-import { List } from 'react-native-paper';
-import mock from '../../mocks'
+import { List, FAB } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import env from '../../environments'
+import {AppContext} from '../contexts/appContext'
 
 export const MinhasAtividades = () => {
 
     const navigation = useNavigation();
     const [listaAtt, setListaAtt] = useState([])
-
+    const {user} = useContext(AppContext)
 
     const renderItem = ({ item }) => (
         <List.Item
@@ -24,16 +24,17 @@ export const MinhasAtividades = () => {
 
     useEffect(() => {
         LoadAtividades();
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            LoadAtividades();
+        });
+        return willFocusSubscription;
     }, [])
 
-    useEffect(()=>{
-        console.log(listaAtt)
-    },[listaAtt])
 
 
     async function LoadAtividades() {
 
-        fetch(`${env.apiAddress}Atividade/atividadeslider`, {
+        fetch(`${env.apiAddress}Atividade/${user.role == '1' ? 'atividadeslider' : `atividadesdesbravador` }`, {
             method: 'GET',
             headers: {
                 'authorization': `Bearer ${await AsyncStorage.getItem('token')}`,
@@ -41,8 +42,8 @@ export const MinhasAtividades = () => {
                 'Content-Type': 'application/json;charset=UTF-8'
             },
         })
-        .then(o => o.json())
-        .then(o=>setListaAtt(o))
+            .then(o => o.json())
+            .then(o => setListaAtt(o))
     }
 
 
@@ -66,6 +67,12 @@ export const MinhasAtividades = () => {
                     keyExtractor={item => item.id}
                 />
             </SafeAreaView>
+            <FAB
+            icon="refresh"
+            color='white'
+            style={[styles.fab2, { backgroundColor: 'blue' }]}
+            onPress={LoadAtividades}
+        />
         </>
 
     );
@@ -88,6 +95,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 8
 
+    },
+    fab2: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        fontSize: 50,
     },
 
 });

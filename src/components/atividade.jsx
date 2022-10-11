@@ -35,7 +35,7 @@ export const Atividade = () => {
         LoadUnidades();
     }, [])
 
-  
+
 
     async function LoadDesbravadores(unidadeId) {
         fetch(`${env.apiAddress}Users/Desbravadores/${unidadeId}`, {
@@ -45,7 +45,10 @@ export const Atividade = () => {
             }
         })
             .then(o => o.json())
-            .then(o => setListaDBV(o))
+            .then(o => {
+                setDesbravadores([])
+                setListaDBV(o)
+            })
     }
 
     async function LoadUnidades() {
@@ -83,9 +86,18 @@ export const Atividade = () => {
             })
         })
             .then(o => o.json())
-        setDescricao('')
-        setDesbravadores([])
-        setUnidade({})
+            .then(o => {
+
+                if (o['sucess'] != undefined && !o.sucess) {
+                    alert(o.message)
+                    return
+                }
+                setDescricao('')
+                setDesbravadores([])
+                setUnidade({})
+                setTitulo('')
+            })
+
 
     }
 
