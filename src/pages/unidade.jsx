@@ -18,7 +18,7 @@ export const Unidade = ({ route }) => {
     const [selectedDBV, setSelectedDBV] = useState([])
     const [nome, setNome] = useState(obj?.name || '')
     const [checked, setChecked] = useState(obj?.sex || 'M');
-    const [agetrack, setAgetrack] = useState(obj?.ageTrack || 10);
+    const [agetrack, setAgetrack] = useState(obj?.ageTrack != null ? `${obj?.ageTrack}` : '10');
     const [lider, setLider] = useState([])
     const [lideres, setLiders] = useState([])
 
@@ -104,15 +104,35 @@ export const Unidade = ({ route }) => {
     }
 
 
+    function Validate(){
+       
+        let message = []
+
+        if (selectedDBV.length == 0 || lider.length == 0) 
+            message.push('Selecione pelo menos um membro lider e desbravador!')
+
+        if(!(agetrack >= 1950 && agetrack <= new Date().getFullYear()))
+            message.push('Faixa etária inválida!')
+    
+        if(message.length > 0){
+
+            Message('Corrija os seguintes erros antes de continuar!', message.join('\n\n'))
+            return false;
+        }
+
+        return true;
+        
+    }
+
+
+
 
 
     async function Request(type) {
 
-
-        if (selectedDBV.length == 0 || lider.length == 0) {
-            alert('Selecione pelo menos um membro lider e desbravador!')
-            return
-        }
+        if(!Validate())
+                return;
+        
 
         let temp = {
             name: nome,

@@ -4,6 +4,7 @@ import { AppContext } from '../contexts/appContext'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Register } from '../pages/register';
 import env from '../../environments'
+import { images } from '../utils';
 
 
 export function Login(props) {
@@ -57,7 +58,7 @@ export function Login(props) {
           <Text style={styles.logo}>Desbravadores</Text>
           <Image
             style={{ width: 200, height: 200, marginTop: -30, marginBottom: 30 }}
-            source={{ uri: require('../../assets/dbv.png') || 'https://files.adventistas.org/institucional/pt/sites/20/2013/03/18160828/D1.png' }}
+            source={images.dbv}
           />
         </View>
 

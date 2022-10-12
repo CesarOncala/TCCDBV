@@ -3,8 +3,15 @@ import { Text, Appbar } from 'react-native-paper'
 import { MinhasAtividades } from './minhas-atividades'
 import { StyleSheet, View, Image } from 'react-native'
 import { AppContext } from '../contexts/appContext'
+import { images } from '../utils'
 
 
+import p1 from '../../assets/1.png'
+import p2 from '../../assets/2.png'
+import p3 from '../../assets/3.png'
+import p4 from '../../assets/4.png'
+import p5 from '../../assets/5.png'
+import p6 from '../../assets/6.png'
 
 export const Perfil = () => {
 
@@ -16,13 +23,13 @@ export const Perfil = () => {
     const [nivel, setNivel] = useState(user?.nivel)
     const [score, setScore] = useState(user?.score)
 
-    const images = {
-        img1: require(`../../assets/1.png`),
-        img2: require(`../../assets/2.png`),
-        img3: require(`../../assets/3.png`),
-        img4: require(`../../assets/4.png`),
-        img5: require(`../../assets/5.png`),
-        img6: require(`../../assets/6.png`)
+    const imagesINS = {
+        img1: p1,
+        img2: p2,
+        img3: p3,
+        img4: p4,
+        img5: p5,
+        img6: p6
     }
 
     return (<>
@@ -44,13 +51,13 @@ export const Perfil = () => {
                         [...Array(nivel).keys()].map((o, i) => i <= 5 ? <Image
                             key={i}
                             style={{ width: 25, height: 25 }}
-                            source={images['img'+(i+1)]}
+                            source={imagesINS['img'+(i+1)]}
                         /> : null)
                     }
                 </View>
             </View>
             <Image style={styles.image}
-                source={{ uri: require('../../assets/up.jpg') ||  'https://i.pinimg.com/736x/e4/b0/9c/e4b09c6651c30d4d6226ca75797871a7--disney-up-russell.jpg' }} />
+                source={images.up} />
         </View>
 
 
@@ -60,7 +67,7 @@ export const Perfil = () => {
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 25,
+        fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
         display: 'flex',

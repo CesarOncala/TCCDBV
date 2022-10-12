@@ -6,6 +6,15 @@ import { Checkbox, Button, FAB } from 'react-native-paper';
 import env from '../../environments'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import p1 from '../../assets/1.png'
+import p2 from '../../assets/2.png'
+import p3 from '../../assets/3.png'
+import p4 from '../../assets/4.png'
+import p5 from '../../assets/5.png'
+import p6 from '../../assets/6.png'
+import star from '../../assets/star.png'
+import ghost from '../../assets/ghost.png'
+
 export const DesbravadoresView = ({ route }) => {
 
     const navigation = useNavigation();
@@ -81,7 +90,7 @@ export const DesbravadoresView = ({ route }) => {
             >
                 <Image
                     style={styles.img}
-                    source={{ uri:  require('../../assets/star.png') ||   'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={star}
                 />
             </TouchableOpacity>
             <TouchableOpacity
@@ -90,7 +99,7 @@ export const DesbravadoresView = ({ route }) => {
             >
                 <Image
                     style={styles.img}
-                    source={{ uri: require('../../assets/ghost.png') || 'https://static.wikia.nocookie.net/universomario/images/a/a3/77519_1301185592608_full.jpg/revision/latest?cb=20120920224727&path-prefix=pt' }}
+                    source={ghost}
                 />
             </TouchableOpacity>
 
@@ -105,7 +114,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: require('../../assets/1.png') ||  'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={p1}
                     /><Text style={styles.ImgClassText}>  Amigo</Text></Text>
                 <Checkbox
                     status={class1 ? 'checked' : 'unchecked'}
@@ -121,7 +130,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: require('../../assets/2.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={p2}
                     /><Text style={styles.ImgClassText}>  Companheiro</Text></Text>
                 <Checkbox
                     status={class2 ? 'checked' : 'unchecked'}
@@ -137,7 +146,7 @@ export const DesbravadoresView = ({ route }) => {
 
                 <Text style={styles.textClass}><Image
                     style={styles.imgClass}
-                    source={{ uri: require('../../assets/3.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={p3}
                 /><Text style={styles.ImgClassText}>  Pesquisador</Text>
                 </Text>
                 <Checkbox
@@ -154,7 +163,7 @@ export const DesbravadoresView = ({ route }) => {
 
                 <Text style={styles.textClass}><Image
                     style={styles.imgClass}
-                    source={{ uri:require('../../assets/4.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                    source={p4}
                 /><Text style={styles.ImgClassText}>  Pioneiro </Text></Text>
                 <Checkbox
                     status={class4 ? 'checked' : 'unchecked'}
@@ -171,7 +180,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: require('../../assets/5.png') || 'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={p5}
                     />
                     <Text style={styles.ImgClassText}>  Excursionista </Text> </Text>
                 <Checkbox
@@ -189,7 +198,7 @@ export const DesbravadoresView = ({ route }) => {
                 <Text style={styles.textClass}>
                     <Image
                         style={styles.imgClass}
-                        source={{ uri: require('../../assets/6.png') ||'https://www.pngitem.com/pimgs/m/230-2305936_mario-star-png-image-background-power-star-mario.png' }}
+                        source={p6}
                     />
                     <Text style={styles.ImgClassText}>  Guia</Text>
                 </Text>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { xorBy } from 'lodash'
 import SelectBox from 'react-native-multi-selectbox'
 import { View, StyleSheet, Image, ScrollView } from 'react-native'
-import { Message } from '../utils'
+import { Message, images } from '../utils'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import env from '../../environments'
 
@@ -107,8 +107,8 @@ export const Atividade = () => {
 
         if (descricao.trim() == '' || titulo.trim() == '')
             validations.push('É necessário preencher todos os campos! 😒')
-        else if (descricao.length < 5 || titulo.length < 5)
-            validations.push('A descrição e ou titulo estão muito curtos 😒')
+        else if (descricao.length < 20 || titulo.length < 20)
+            validations.push('A descrição e ou titulo estão muito curtos, digite pelo menos 20 caracteres para ambos 😒')
 
         if (unidade['item'] == undefined)
             validations.push('Selecione uma unidade 😒')
@@ -127,7 +127,7 @@ export const Atividade = () => {
             <Appbar.Content title='Atividade' />
         </Appbar.Header>
 
-        <ScrollView>
+        <ScrollView nestedScrollEnabled={true}>
             <View style={{ padding: 22 }}>
 
                 <TextInput
@@ -160,8 +160,6 @@ export const Atividade = () => {
                             hideInputFilter={false}
                         />
                     </View>
-
-
                     <View style={styles.select}>
                         <Text style={{ fontSize: 20, paddingBottom: 10 }}>Desbravadores</Text>
                         <SelectBox
@@ -171,17 +169,15 @@ export const Atividade = () => {
                             onMultiSelect={onMultiChange()}
                             onTapClose={onMultiChange()}
                             isMulti
+                            
                         />
                     </View>
-
-
-
                 </View>
 
                 <View style={styles.image}>
                     <Image
                         style={{ width: 200, height: 200 }}
-                        source={{ uri: require('../../assets/m.png') ||  'https://i.pinimg.com/originals/8f/d0/fe/8fd0fea5927efb1207ee9d7dd4535260.png' }} />
+                        source={images.m} />
                 </View>
 
 

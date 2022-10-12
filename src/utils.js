@@ -1,4 +1,7 @@
 import {Alert} from 'react-native'
+import m from '../assets/m.png'
+import dbv from '../assets/dbv.png'
+import up from '../assets/up.jpg'
 
 function Message(title,message,okFunction,cancelFunction,cancelbutton = true){
     return Alert.alert(
@@ -15,4 +18,13 @@ function Message(title,message,okFunction,cancelFunction,cancelbutton = true){
        );
  }
 
- export {Message}
+
+ const images = {
+    m,
+    dbv,
+    up
+ }
+ 
+
+
+ export {Message,images}
