@@ -93,7 +93,7 @@ export const Unidade = ({ route }) => {
             .then(o => o.json())
             .then(o => {
                 setDesbravadores(o)
-      
+
                 if (obj?.membros) {
                     let ids = obj.membros.map(o => o.id)
 
@@ -104,24 +104,24 @@ export const Unidade = ({ route }) => {
     }
 
 
-    function Validate(){
-       
+    function Validate() {
+
         let message = []
 
-        if (selectedDBV.length == 0 || lider.length == 0) 
+        if (selectedDBV.length == 0 || lider.length == 0)
             message.push('Selecione pelo menos um membro lider e desbravador!')
 
-        if(!(agetrack >= 1950 && agetrack <= new Date().getFullYear()))
+        if (!(agetrack >= 1950 && agetrack <= new Date().getFullYear()))
             message.push('Faixa etária inválida!')
-    
-        if(message.length > 0){
+
+        if (message.length > 0) {
 
             Message('Corrija os seguintes erros antes de continuar!', message.join('\n\n'))
             return false;
         }
 
         return true;
-        
+
     }
 
 
@@ -130,9 +130,8 @@ export const Unidade = ({ route }) => {
 
     async function Request(type) {
 
-        if(!Validate())
-                return;
-        
+        if (!Validate())
+            return;
 
         let temp = {
             name: nome,
