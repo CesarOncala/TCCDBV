@@ -111,7 +111,7 @@ export const Unidade = ({ route }) => {
         if (selectedDBV.length == 0 || lider.length == 0)
             message.push('Selecione pelo menos um membro lider e desbravador!')
 
-        if (!(agetrack >= 1950 && agetrack <= new Date().getFullYear()))
+        if (!(agetrack >= 10))
             message.push('Faixa etária inválida!')
 
         if (message.length > 0) {
